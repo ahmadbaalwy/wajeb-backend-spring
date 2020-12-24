@@ -1,9 +1,10 @@
 package com.example.demo.payload.request;
 
+
 public class newCourseRequest {
 
     private String courseName;
-    private Long userId;
+    private String token;
 
     public String getCourseName() {
         return courseName;
@@ -13,12 +14,16 @@ public class newCourseRequest {
         this.courseName = courseName;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getToken() {
+        return token;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setToken(String token) {
+        this.token = token;
     }
+
+    
+
+    
     
 }
