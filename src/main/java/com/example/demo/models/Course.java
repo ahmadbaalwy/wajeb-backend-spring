@@ -20,9 +20,8 @@ public class Course {
 	@Size(max = 50)
     private String courseName;
     
-    @ManyToOne
     @NotNull
-    private User user;
+    private String user;
 
     
 
@@ -42,18 +41,18 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public User getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
     public Course() {
     }
 
-    public Course(@NotBlank @Size(max = 50) String courseName, @NotNull User user) {
+    public Course(@NotBlank @Size(max = 50) String courseName, @NotNull String user) {
         
         this.courseName = courseName;
         this.user = user;

@@ -19,6 +19,8 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    private String firebaseToken;
   
     public String getUsername() {
         return username;
@@ -50,5 +52,13 @@ public class SignupRequest {
     
     public void setRole(Set<String> role) {
       this.role = role;
+    }
+
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
     }
 }
