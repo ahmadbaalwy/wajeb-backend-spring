@@ -76,9 +76,11 @@ public class CourseController {
         return decodedToken.getEmail();
         
     }
+    
+
 
     @GetMapping("/myCourses")
-    public ResponseEntity<List<Course>> Courses(@RequestParam String token) throws FirebaseAuthException {
+    public ResponseEntity<?> Courses(@RequestParam String token) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
         String username = decodedToken.getEmail();
@@ -86,8 +88,9 @@ public class CourseController {
         CourseSpecification ownerCheck = new CourseSpecification();
         ownerCheck.add(new SearchCriteria("user", username, SearchOperation.EQUAL));
         List<Course> courses = courseRepository.findAll(ownerCheck);
+        //return ResponseEntity.ok(courses);
+        //return ResponseEntity.ok(courses);
         return ResponseEntity.ok(courses);
-
     }
 
     @PostMapping("/addCourse")
