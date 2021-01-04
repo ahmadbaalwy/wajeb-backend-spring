@@ -1,12 +1,13 @@
 package com.example.demo.repository;
 
+import com.example.demo.models.Classroom;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.models.Course;
-
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
+public interface ClassroomRepository extends JpaRepository<Classroom, Long>, JpaSpecificationExecutor<Classroom> {
     
 }
+
