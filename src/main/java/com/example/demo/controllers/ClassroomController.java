@@ -9,7 +9,6 @@ import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.ClassroomRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.specs.ClassroomSpecification;
-import com.example.demo.specs.CourseSpecification;
 import com.example.demo.specs.SearchCriteria;
 import com.example.demo.specs.SearchOperation;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -35,6 +34,8 @@ public class ClassroomController {
 
     @Autowired
     CourseRepository courseRepository;
+
+    
 
     @GetMapping("/getClassrooms")
     public ResponseEntity<List<Classroom>> getClassrooms(@RequestParam Long courseId)  {
@@ -89,6 +90,19 @@ public class ClassroomController {
         classroom.setEndDate(newClassroom.getEndDate());
         classroomRepository.save(classroom);
         return ResponseEntity.ok(new MessageResponse("Course Edited Successfully!"));
+    }
+
+    @GetMapping("/getCourseId")
+    public Long getCourseId(@RequestParam Long classroomId){
+        return classroomRepository.getCourseId(classroomId);
+    }
+
+    @GetMapping("/searchForClassroom")
+    public List<?> searchForClassroom(@RequestParam String courseName, @RequestParam String schoolName){
+        String course_name = "%" + courseName + "%";
+        String school_name = "%" + schoolName + "%";
+        System.out.println(course_name);
+        return classroomRepository.searchForClassroom(course_name, school_name);
     }
     
 }

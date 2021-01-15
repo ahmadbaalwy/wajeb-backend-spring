@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "classrooms")
@@ -50,7 +54,13 @@ public class Classroom {
     @NotBlank
     private Course course;
 
-    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classroom")
+    @JsonManagedReference
+    private Set<Quizz> quizzes;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classroom")
+    @JsonManagedReference
+    private Set<Enrollment> enrollments;
 
     public Classroom(@NotBlank @Size(max = 50) String classroomName, boolean Private, boolean Active,
             String schoolName, String category, Date startDate, Date endDate) {
@@ -136,6 +146,14 @@ public class Classroom {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Set<Quizz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(Set<Quizz> quizzes) {
+        this.quizzes = quizzes;
     }
 
 
