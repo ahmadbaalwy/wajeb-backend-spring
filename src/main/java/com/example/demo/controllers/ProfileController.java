@@ -24,6 +24,12 @@ public class ProfileController {
     @Autowired
     ProfileRepository profileRepository;
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        //return profileRepository.getRole(email);
+        return ResponseEntity.ok(new MessageResponse("Hello Ahmed"));
+    }
+
     @GetMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestParam String email){
         //return profileRepository.getRole(email);
@@ -36,7 +42,12 @@ public class ProfileController {
         profile.setUsername(newProfile.getEmail());
         profile.setRole(newProfile.getRole());
         profile.setFullName(newProfile.getFullName());
-        profileRepository.save(profile);
+        try {
+            profileRepository.save(profile);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
         return ResponseEntity.ok(new MessageResponse("role was created successfully!"));
     }
 }

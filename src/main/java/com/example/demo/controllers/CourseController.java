@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.services.FirebaseAppService;
 import com.example.demo.security.services.UserDetailsServiceImpl;
 import com.example.demo.specs.CourseSpecification;
@@ -52,10 +51,6 @@ import com.google.firebase.database.FirebaseDatabase;
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
-
-
-    @Autowired
-    JwtUtils jwtUtils;
 
     User user;
 
