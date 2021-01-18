@@ -15,7 +15,6 @@
   <name>demo</name>  
   <description>Demo project for Spring Boot</description>  
   <properties> 
-    <start-class>com.example.demo.DemoApplication</start-class>  
     <java.version>11</java.version> 
   </properties>  
   <dependencies> 
@@ -60,6 +59,10 @@
   </dependencies>  
   <build> 
     <plugins> 
+    <plugin> 
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-maven-plugin</artifactId> 
+      </plugin> 
       <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-webapp-maven-plugin</artifactId>
@@ -72,10 +75,16 @@
           <pricingTier>B1</pricingTier>
           <region>westeurope</region>
           <runtime>
-            <os>Windows</os>
+            <os>Linux</os>
             <javaVersion>Java 11</javaVersion>
             <webContainer>Java SE</webContainer>
           </runtime>
+          <appSettings>
+          <property>
+                <name>JAVA_OPTS</name>
+                <value>-Dserver.port=80</value>
+          </property>
+       </appSettings>
           <deployment>
             <resources>
               <resource>
