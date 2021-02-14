@@ -11,10 +11,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import javax.persistence.Lob;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.engine.FetchStyle;
 
 @Entity
 @Table(name="questions")
@@ -30,6 +39,11 @@ public class Question {
     private int score;
 
     private String text;
+    
+    //@JsonInclude()
+    //@Transient
+    @Column(name = "picByte", length = 1000000)
+    private byte[] picByte;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quizz_id")
@@ -93,11 +107,13 @@ public class Question {
     public Question() {
     }
 
-    public Question(String type, int sequence, int score, String text) {
+    public Question(String type, int sequence, int score, String text, byte[] picByte) {
         this.type = type;
         this.sequence = sequence;
         this.score = score;
         this.text = text;
+        this.picByte = picByte;
+      
         
     }
 
@@ -107,6 +123,14 @@ public class Question {
 
     public void setQuizzAnswers(Set<QuizzAnswer> quizzAnswers) {
         this.quizzAnswers = quizzAnswers;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
     }
 
     

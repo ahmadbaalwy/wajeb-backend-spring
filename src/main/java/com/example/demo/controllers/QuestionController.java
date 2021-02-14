@@ -1,11 +1,17 @@
 package com.example.demo.controllers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import com.example.demo.models.Question;
 import com.example.demo.models.Quizz;
 import com.example.demo.payload.request.newQuestionRequest;
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.payload.response.image;
 import com.example.demo.repository.QuestionRepository;
 import com.example.demo.repository.QuizzRepository;
 import com.example.demo.specs.QuestionSpecification;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -45,17 +52,27 @@ public class QuestionController {
     }
 
     @PostMapping("/addQuestion")
-    public ResponseEntity<?> addQuestion(@RequestBody newQuestionRequest newQuestion) {
-        Quizz quizz = quizzRepository.findById(newQuestion.getQuizzId()).orElseThrow();
+    public ResponseEntity<?> addQuestion(@RequestParam("type") String type,
+    @RequestParam("sequence") String sequence,
+    @RequestParam("score") String score,
+    @RequestParam("text") String text,
+    @RequestParam("picByte") MultipartFile file,
+    @RequestParam("quizzId") String quizzId
+     
+     ) throws IOException {
+
+        Quizz quizz = quizzRepository.findById(Long.valueOf(quizzId)).orElseThrow();
         Question question = new Question(
-            newQuestion.getType(),
-            newQuestion.getSequence(),
-            newQuestion.getScore(),
-            newQuestion.getText()
-            );
+            type,
+            Integer.valueOf(sequence),
+            Integer.valueOf(score),
+            text,
+            file.getBytes()
+        );
            
         question.setQuizz(quizz);
         questionRepository.save(question);
+        questionRepository.uploadPhoto(file.getBytes(), question.getId());
         return ResponseEntity.ok(question.getId());
     }
 
@@ -78,8 +95,8 @@ public class QuestionController {
        
         Question question = questionRepository.findById(questionId).orElseThrow();
         question.setType(newQuestion.getType());
-        question.setSequence(newQuestion.getSequence());
-        question.setScore(newQuestion.getScore());
+        question.setSequence(Integer.valueOf(newQuestion.getSequence()));
+        question.setScore(Integer.valueOf(newQuestion.getScore()));
         question.setText(newQuestion.getText());
         questionRepository.save(question);
         return ResponseEntity.ok(new MessageResponse("Question Edited Successfully!"));
@@ -90,6 +107,48 @@ public class QuestionController {
         return questionRepository.getQuizzId(questionId);
     }
 
+    @GetMapping("/getQuestionPhoto")
+    public ResponseEntity<?> getQuestionPhoto(@RequestParam Long questionId){
+        //return ResponseEntity.ok(questionRepository.getQuestionPhoto(questionId));
+        image _image = new image("image","png",questionRepository.getQuestionPhoto(questionId));
+        return ResponseEntity.ok(_image);
+    }
 
+        // compress the image bytes before storing it in the database
+        public static byte[] compressBytes(byte[] data) {
+            Deflater deflater = new Deflater();
+            deflater.setInput(data);
+            deflater.finish();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+            byte[] buffer = new byte[1000000];
+            while (!deflater.finished()) {
+                int count = deflater.deflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+            }
+            System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+            return outputStream.toByteArray();
+        }
+
+        // uncompress the image bytes before returning it to the angular application
+public static byte[] decompressBytes(byte[] data) {
+    Inflater inflater = new Inflater();
+    inflater.setInput(data);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[1000000];
+    try {
+        while (!inflater.finished()) {
+            int count = inflater.inflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        outputStream.close();
+    } catch (IOException ioe) {
+    } catch (DataFormatException e) {
+    }
+    return outputStream.toByteArray();
+}
     
 }

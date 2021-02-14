@@ -54,9 +54,9 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
             " JOIN" +
         " courses ON classrooms.course_id = courses.id" +
             " JOIN" +
-        " profiles ON courses.user = profiles.username" +
+        " profiles ON enrollments.username = profiles.username" +
     " WHERE" +
-        " classrooms.id = ?1 and enrollments.status='pending'",
+        " enrollments.classroom_id = ?1 and enrollments.status='pending'",
         nativeQuery = true
     )
     List<enrollmentsDetails> getPendingEnrollments(Long classroomId);
@@ -79,9 +79,9 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
             " JOIN" +
         " courses ON classrooms.course_id = courses.id" +
             " JOIN" +
-        " profiles ON courses.user = profiles.username" +
+        " profiles ON enrollments.username = profiles.username" +
     " WHERE" +
-        " classrooms.id = ?1 and enrollments.status='approved'",
+        " enrollments.classroom_id = ?1 and enrollments.status='approved'",
         nativeQuery = true
     )
     List<enrollmentsDetails> getApprovedEnrollments(Long classroomId);

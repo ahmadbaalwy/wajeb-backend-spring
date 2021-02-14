@@ -98,11 +98,11 @@ public class ClassroomController {
     }
 
     @GetMapping("/searchForClassroom")
-    public List<?> searchForClassroom(@RequestParam String courseName, @RequestParam String schoolName){
+    public List<?> searchForClassroom(@RequestParam String courseName, @RequestParam String schoolName, @RequestParam String username){
         String course_name = "%" + courseName + "%";
         String school_name = "%" + schoolName + "%";
         System.out.println(course_name);
-        return classroomRepository.searchForClassroom(course_name, school_name);
+        return classroomRepository.searchForClassroom(username, course_name, school_name);
     }
     
 }

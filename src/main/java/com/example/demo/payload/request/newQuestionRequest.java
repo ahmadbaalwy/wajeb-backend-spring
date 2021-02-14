@@ -1,12 +1,17 @@
 package com.example.demo.payload.request;
 
+import java.io.File;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class newQuestionRequest {
 
     private String type;
-    private int sequence;
-    private int score;
+    private String sequence;
+    private String score;
     private String text;
-    private Long quizzId;
+    private MultipartFile picByte;
+    private String quizzId;
 
     public String getType() {
         return type;
@@ -16,19 +21,19 @@ public class newQuestionRequest {
         this.type = type;
     }
 
-    public int getSequence() {
+    public String getSequence() {
         return sequence;
     }
 
-    public void setSequence(int sequence) {
+    public void setSequence(String sequence) {
         this.sequence = sequence;
     }
 
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
@@ -40,12 +45,22 @@ public class newQuestionRequest {
         this.text = text;
     }
 
-    public Long getQuizzId() {
+  
+
+    public String getQuizzId() {
         return quizzId;
     }
 
-    public void setQuizzId(Long quizzId) {
+    public void setQuizzId(String quizzId) {
         this.quizzId = quizzId;
+    }
+
+    public MultipartFile getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(MultipartFile picByte) {
+        this.picByte = picByte;
     }
     
 }

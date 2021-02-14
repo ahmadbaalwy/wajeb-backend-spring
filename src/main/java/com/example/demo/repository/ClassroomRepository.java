@@ -24,13 +24,13 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long>, Jpa
         " from courses" +
         " join profiles on courses.user = profiles.username" +
         " join classrooms on courses.id=classrooms.course_id" +
-        " left join  enrollments on classrooms.id = enrollments.classroom_id" +
-        " where course_name like ?1" +
-        " and classrooms.school_name like ?2" +
-        " and classrooms.active = true;",
+        " left join  enrollments on classrooms.id = enrollments.classroom_id and enrollments.username= ?1" +
+        " where course_name like ?2" +
+        " and classrooms.school_name like ?3" +
+        " and classrooms.active = true",
         nativeQuery = true
     )
-    List<classroomSearch> searchForClassroom(String courseName, String schooldName);
+    List<classroomSearch> searchForClassroom(String username, String courseName, String schooldName);
 
     public static interface classroomSearch{
         Long getCourseId();
