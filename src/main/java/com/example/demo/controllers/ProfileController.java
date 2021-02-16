@@ -30,6 +30,7 @@ public class ProfileController {
         return ResponseEntity.ok(new MessageResponse("Hello Ahmed"));
     }
 
+    @CrossOrigin
     @GetMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestParam String email){
         //return profileRepository.getRole(email);
