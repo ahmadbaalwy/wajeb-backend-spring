@@ -70,7 +70,7 @@ public class CourseController {
     }
     
 
-
+    @CrossOrigin
     @GetMapping("/myCourses")
     public ResponseEntity<?> Courses(@RequestParam String token) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();

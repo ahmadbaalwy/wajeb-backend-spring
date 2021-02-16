@@ -3,5 +3,3 @@ entrypoint: java -Xmx64m -jar demo-0.3.jar
 handlers:
 - url: /.*
   script: auto
-  http_headers: 
-    Access-Control-Allow-Origin: "*"
