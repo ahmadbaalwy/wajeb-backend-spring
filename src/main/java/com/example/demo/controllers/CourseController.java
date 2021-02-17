@@ -70,7 +70,7 @@ public class CourseController {
     }
     
 
-    @CrossOrigin
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping("/myCourses")
     public ResponseEntity<?> Courses(@RequestParam String token) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
@@ -85,6 +85,7 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @PostMapping("/addCourse")
     public ResponseEntity<?> addCourse(@RequestBody newCourseRequest newCourse) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
@@ -95,6 +96,7 @@ public class CourseController {
         return ResponseEntity.ok(new MessageResponse("Course registered successfully !"));
     }
 
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @PostMapping("/deleteCourse")
     public ResponseEntity<?> deleteCourse(@RequestParam String token, @RequestParam Long courseId )
             throws FirebaseAuthException {
@@ -111,6 +113,7 @@ public class CourseController {
 
     }
 
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping("/editCourse")
     public Course editCourse(@RequestParam String token, @RequestParam Long courseId) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
@@ -122,6 +125,7 @@ public class CourseController {
 
     }
 
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @PostMapping("/editCourse")
     public ResponseEntity<?> editCourse(@RequestParam String token, @RequestParam Long courseId, @RequestParam String courseName )
             throws FirebaseAuthException {
