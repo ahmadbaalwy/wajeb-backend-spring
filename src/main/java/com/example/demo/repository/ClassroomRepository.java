@@ -20,7 +20,11 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long>, Jpa
     Long getCourseId(Long id);
 
     @Query(
-        value="select courses.id as courseId, course_name, classrooms.id as classroomId, classroom_name, school_name, profiles.full_name, enrollments.status" +
+        value="select courses.id as courseId, course_name, classrooms.id as classroomId," +
+        " classroom_name, school_name, profiles.full_name, enrollments.status, " +
+        " classrooms.college, classrooms.department, classrooms.branch, classrooms.session, classrooms.category," +
+        " DATE_FORMAT(classrooms.start_date, '%d %m %Y') as 'start_date'," +
+        " DATE_FORMAT(classrooms.end_date, '%d %m %Y') as 'end_date'"+
         " from courses" +
         " join profiles on courses.user = profiles.username" +
         " join classrooms on courses.id=classrooms.course_id" +
@@ -40,6 +44,13 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long>, Jpa
         String getSchool_name();
         String getFull_name();
         String getStatus();
+        String getCollege();
+        String getDepartment();
+        String getBranch();
+        String getSession();
+        String getCategory();
+        String getStart_date();
+        String getEnd_date();
     }
 
     

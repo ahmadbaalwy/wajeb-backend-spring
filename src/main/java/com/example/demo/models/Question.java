@@ -117,7 +117,15 @@ public class Question {
         
     }
 
-    public Set<QuizzAnswer> getQuizzAnswers() {
+	public Question(String type, int sequence, int score, String text) {
+        this.type = type;
+        this.sequence = sequence;
+        this.score = score;
+        this.text = text;      
+        
+    }
+
+	public Set<QuizzAnswer> getQuizzAnswers() {
         return quizzAnswers;
     }
 

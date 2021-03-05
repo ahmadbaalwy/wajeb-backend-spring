@@ -34,7 +34,24 @@ public class ProfileController {
     @GetMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestParam String email){
         //return profileRepository.getRole(email);
+        char c = email.trim().charAt(0);
+        boolean isDigit = (c >= '0' && c <= '9');
+        if (isDigit){
+            return ResponseEntity.ok(profileRepository.getRole("+" + email.trim()));
+        }
         return ResponseEntity.ok(profileRepository.getRole(email));
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getFullName")
+    public ResponseEntity<?> getFullName(@RequestParam String email){
+        //return profileRepository.getRole(email);
+        char c = email.trim().charAt(0);
+        boolean isDigit = (c >= '0' && c <= '9');
+        if (isDigit){
+            return ResponseEntity.ok(profileRepository.getFullName("+" + email.trim()));
+        }
+        return ResponseEntity.ok(profileRepository.getFullName(email));
     }
 
     @PostMapping("/setProfile")

@@ -42,6 +42,14 @@ public class Classroom {
 
     private String schoolName;
 
+    private String college;
+
+    private String department;
+
+    private String branch;
+
+    private String session;
+
     private String category;
 
     private Date startDate;
@@ -154,6 +162,55 @@ public class Classroom {
 
     public void setQuizzes(Set<Quizz> quizzes) {
         this.quizzes = quizzes;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public Classroom(@NotBlank @Size(max = 50) String classroomName, boolean private1, boolean active,
+            String schoolName, String college, String department, String branch, String session, String category,
+            Date startDate, Date endDate) {
+        this.classroomName = classroomName;
+        Private = private1;
+        Active = active;
+        this.schoolName = schoolName;
+        this.college = college;
+        this.department = department;
+        this.branch = branch;
+        this.session = session;
+        this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 

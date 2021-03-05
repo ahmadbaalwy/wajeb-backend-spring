@@ -12,6 +12,14 @@ public class newClassroomRequest {
 
     private String schoolName;
 
+    private String college;
+
+    private String department;
+
+    private String branch;
+
+    private String session;
+
     private String category;
 
     private Date startDate;
@@ -82,6 +90,38 @@ public class newClassroomRequest {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
     }
 }
     

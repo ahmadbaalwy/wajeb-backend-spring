@@ -76,6 +76,9 @@ public class CourseController {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         //user = userRepository.findByUsername(username).orElseThrow();
         CourseSpecification ownerCheck = new CourseSpecification();
         ownerCheck.add(new SearchCriteria("user", username, SearchOperation.EQUAL));
@@ -91,6 +94,9 @@ public class CourseController {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(newCourse.getToken());
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         //user = userRepository.findByUsername(username).orElseThrow();
         courseRepository.save(new Course(newCourse.getCourseName(), username)) ;
         return ResponseEntity.ok(new MessageResponse("Course registered successfully !"));

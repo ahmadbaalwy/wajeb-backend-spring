@@ -16,6 +16,12 @@ public interface ProfileRepository extends JpaRepository<Profile, Long>, JpaSpec
     )
     String getRole(String user);
 
+    @Query(
+        value="SELECT full_name from profiles where username =?1",
+        nativeQuery = true
+    )
+    String getFullName(String user);
+
     
 }
 

@@ -56,7 +56,7 @@ public class QuestionController {
     @RequestParam("sequence") String sequence,
     @RequestParam("score") String score,
     @RequestParam("text") String text,
-    @RequestParam("picByte") MultipartFile file,
+    @RequestParam(name="picByte", required=false) MultipartFile file,
     @RequestParam("quizzId") String quizzId
      
      ) throws IOException {
@@ -66,13 +66,16 @@ public class QuestionController {
             type,
             Integer.valueOf(sequence),
             Integer.valueOf(score),
-            text,
-            file.getBytes()
+            text
         );
-           
+        if (file!=null){
+            question.setPicByte(file.getBytes());
+        }
         question.setQuizz(quizz);
         questionRepository.save(question);
-        questionRepository.uploadPhoto(file.getBytes(), question.getId());
+        if (file!=null){
+            questionRepository.uploadPhoto(file.getBytes(), question.getId());
+        }
         return ResponseEntity.ok(question.getId());
     }
 

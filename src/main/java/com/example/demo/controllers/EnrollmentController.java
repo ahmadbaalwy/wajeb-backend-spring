@@ -38,7 +38,10 @@ public class EnrollmentController {
     public ResponseEntity<?> getEnrollments(@RequestParam String token) throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
-        String username = decodedToken.getEmail();        
+        String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }        
         List<enrollmentsDetails> enrollments = enrollmentRepository.getMyEnrollments(username);
         return ResponseEntity.ok(enrollments);
     }

@@ -54,6 +54,10 @@ public class ClassroomController {
             newClassroom.isPrivate(),
             newClassroom.isActive(),
             newClassroom.getSchoolName(),
+            newClassroom.getCollege(),
+            newClassroom.getDepartment(),
+            newClassroom.getBranch(),
+            newClassroom.getSession(),
             newClassroom.getCategory(),
             newClassroom.getStartDate(),
             newClassroom.getEndDate()
@@ -86,6 +90,9 @@ public class ClassroomController {
         classroom.setActive(newClassroom.isActive());
         classroom.setSchoolName(newClassroom.getSchoolName());
         classroom.setCategory(newClassroom.getCategory());
+        classroom.setCollege(newClassroom.getCollege());
+        classroom.setDepartment(newClassroom.getDepartment());
+        classroom.setBranch(newClassroom.getBranch());
         classroom.setStartDate(newClassroom.getStartDate());
         classroom.setEndDate(newClassroom.getEndDate());
         classroomRepository.save(classroom);
