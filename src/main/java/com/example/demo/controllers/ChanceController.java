@@ -35,8 +35,11 @@ public class ChanceController {
     public ResponseEntity<?> getStudentChances(@RequestParam String token, @RequestParam Long quizzId)
             throws FirebaseAuthException {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
-        FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
+        FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);            
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         return ResponseEntity.ok(chanceRepository.getStudentChances(username, quizzId));
     }
 
@@ -46,6 +49,9 @@ public class ChanceController {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         return ResponseEntity.ok(chanceRepository.getStudentPendingChances(username, quizzId));
     }
 
@@ -55,6 +61,9 @@ public class ChanceController {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         return ResponseEntity.ok(chanceRepository.getStudentSubmittedChances(username, quizzId));
     }
 
@@ -64,6 +73,9 @@ public class ChanceController {
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         FirebaseToken decodedToken = defaultAuth.verifyIdToken(newChance.getToken());
         String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
         Quizz quizz = quizzRepository.findById(newChance.getQuizzId()).orElseThrow();
         Chance chance = new Chance();
         chance.setStatus("pending");
@@ -92,6 +104,11 @@ public class ChanceController {
         chance.setStatus("submitted");
         chanceRepository.save(chance);
         return ResponseEntity.ok(chance);
+    }
+
+    @GetMapping("/getStudentsScores")
+    public ResponseEntity<?> getStudentsScores(@RequestParam Long quizzId){
+        return ResponseEntity.ok(chanceRepository.getStudentsScores(quizzId));
     }
 
     

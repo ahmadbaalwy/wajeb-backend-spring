@@ -56,6 +56,16 @@ public interface ChanceRepository extends JpaRepository<Chance,Long> {
     )
     int calculateChanceGrade(Long chanceId);
 
+    @Query(
+        value="select MAX(grade) as score, profiles.full_name" +
+        " from chances" +
+        " join profiles on chances.username = profiles.username" +
+        " where chances.quizz_id=?1" +
+        " group by chances.username, profiles.full_name;",
+        nativeQuery = true
+    )
+    List<studentsScores> getStudentsScores(Long quizzId);
+
     public static interface chanceData{
         Long getId();
         String getStatus();
@@ -64,6 +74,11 @@ public interface ChanceRepository extends JpaRepository<Chance,Long> {
         Long getQuizz_id();
         int getGrade();
         String getGrade_date();
+    }
+
+    public static interface studentsScores{
+        String getFull_name();
+        int getScore();
     }
 
 

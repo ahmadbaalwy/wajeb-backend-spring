@@ -105,11 +105,16 @@ public class ClassroomController {
     }
 
     @GetMapping("/searchForClassroom")
-    public List<?> searchForClassroom(@RequestParam String courseName, @RequestParam String schoolName, @RequestParam String username){
+    public ResponseEntity<?> searchForClassroom(@RequestParam String courseName, @RequestParam String schoolName, @RequestParam String username){
         String course_name = "%" + courseName + "%";
         String school_name = "%" + schoolName + "%";
         System.out.println(course_name);
-        return classroomRepository.searchForClassroom(username, course_name, school_name);
+        char c = username.trim().charAt(0);
+        boolean isDigit = (c >= '0' && c <= '9');
+        if (isDigit){
+            return ResponseEntity.ok(classroomRepository.searchForClassroom("+" + username.trim(), course_name, school_name));
+        }
+        return ResponseEntity.ok(classroomRepository.searchForClassroom(username, course_name, school_name));
     }
     
 }
