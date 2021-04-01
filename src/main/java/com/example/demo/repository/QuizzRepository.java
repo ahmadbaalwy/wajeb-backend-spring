@@ -20,5 +20,11 @@ public interface QuizzRepository extends JpaRepository<Quizz, Long>, JpaSpecific
         nativeQuery = true
     )
     Long getMaxAllowedChances(Long id);
+
+    @Query(
+        value="select SUM(score) from questions where quizz_id = ?1",
+        nativeQuery = true
+    )
+    Long getMaxScore(Long quizz_id);
 }
 

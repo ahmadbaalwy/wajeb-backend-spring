@@ -92,5 +92,10 @@ public class QuizzController {
     public ResponseEntity<?> getMaxAllowedChances(@RequestParam Long quizzId){
         return ResponseEntity.ok(quizzRepository.getMaxAllowedChances(quizzId));
     }
+
+    @GetMapping("/getMaxScore")
+    public ResponseEntity<?> getMaxScore(@RequestParam Long quizzId){
+        return ResponseEntity.ok(quizzRepository.getMaxScore(quizzId));
+    }
     
 }
