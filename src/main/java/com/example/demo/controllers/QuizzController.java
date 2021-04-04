@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.models.Classroom;
@@ -52,6 +53,7 @@ public class QuizzController {
             newQuizz.getMaxChances(),
             newQuizz.getGrade()
             );
+        quizz.setCreationDate(new Date());
         quizz.setClassroom(classroom);
         quizzRepository.save(quizz);
         return ResponseEntity.ok(new MessageResponse("Quizz registered successfully !"));

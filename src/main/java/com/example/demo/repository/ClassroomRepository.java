@@ -31,10 +31,11 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long>, Jpa
         " left join  enrollments on classrooms.id = enrollments.classroom_id and enrollments.username= ?1" +
         " where course_name like ?2" +
         " and classrooms.school_name like ?3" +
+        " and profiles.full_name like ?4" +
         " and classrooms.active = true",
         nativeQuery = true
     )
-    List<classroomSearch> searchForClassroom(String username, String courseName, String schooldName);
+    List<classroomSearch> searchForClassroom(String username, String courseName, String schoolName, String teacherName);
 
     public static interface classroomSearch{
         Long getCourseId();

@@ -1,11 +1,14 @@
 package com.example.demo.payload.request;
 
+import java.util.Date;
+
 public class newQuizzRequest {
 
     private String quizzName;
     private boolean active;
     private int maxChances;
     private int grade;
+    private Date creationDate;
     private Long classroomId;
 
     public String getQuizzName() {
@@ -46,6 +49,14 @@ public class newQuizzRequest {
 
     public void setClassroomId(Long classroomId) {
         this.classroomId = classroomId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
     
 }

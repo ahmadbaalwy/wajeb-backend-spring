@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -32,6 +33,8 @@ public class Quizz {
     private int maxChances;
     
     private int grade;
+
+    private Date creationDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "classroom_id")
@@ -96,6 +99,8 @@ public class Quizz {
         this.grade = grade;
     }
 
+    
+
     public Classroom getClassroom() {
         return classroom;
     }
@@ -110,6 +115,14 @@ public class Quizz {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
    
