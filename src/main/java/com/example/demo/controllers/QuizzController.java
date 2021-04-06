@@ -9,9 +9,13 @@ import com.example.demo.payload.request.newQuizzRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.ClassroomRepository;
 import com.example.demo.repository.QuizzRepository;
+import com.example.demo.repository.QuizzRepository.newQuizzes;
 import com.example.demo.specs.QuizzSpecification;
 import com.example.demo.specs.SearchCriteria;
 import com.example.demo.specs.SearchOperation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +102,19 @@ public class QuizzController {
     @GetMapping("/getMaxScore")
     public ResponseEntity<?> getMaxScore(@RequestParam Long quizzId){
         return ResponseEntity.ok(quizzRepository.getMaxScore(quizzId));
+    }
+
+    @GetMapping("/getNewQuizzes")
+    public ResponseEntity<?> getNewQuizzes(@RequestParam String token) throws FirebaseAuthException{
+        FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
+        FirebaseToken decodedToken = defaultAuth.verifyIdToken(token);
+        String username = decodedToken.getEmail();
+        if (decodedToken.getEmail()==null){
+            username = defaultAuth.getUser(decodedToken.getUid()).getPhoneNumber();
+        }
+        
+        List<newQuizzes> newQuizzesList = quizzRepository.getNewQuizzes(username);
+        return ResponseEntity.ok(newQuizzesList);
     }
     
 }

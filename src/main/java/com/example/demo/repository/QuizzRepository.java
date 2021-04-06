@@ -1,5 +1,8 @@
 package com.example.demo.repository;
 
+import java.util.Date;
+import java.util.List;
+
 import com.example.demo.models.Quizz;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +29,50 @@ public interface QuizzRepository extends JpaRepository<Quizz, Long>, JpaSpecific
         nativeQuery = true
     )
     Long getMaxScore(Long quizz_id);
+
+    @Query(
+        value="SELECT" +
+    " courses.course_name AS 'courseName'," +
+    " classrooms.id AS 'classroomId'," +
+    " classrooms.classroom_name as 'classroomName'," +
+    " quizzes.id AS 'quizzId'," +
+    " quizzes.quizz_name AS 'quizzName'," +
+    " quizzes.creation_date AS 'creationDate'," +
+    " enrollments.username," +
+    " chances.status AS 'chanceStatus'," +
+    " chances.id AS 'chanceId'" +
+" FROM" +
+    " courses JOIN classrooms ON classrooms.course_id = courses.id" +
+        " JOIN" +
+    " quizzes ON classrooms.id = quizzes.classroom_id" +
+        " JOIN" +
+    " enrollments ON classrooms.id = enrollments.classroom_id" +
+        " LEFT JOIN" +
+    " chances ON quizzes.id = chances.quizz_id" +
+        " AND enrollments.username = chances.username" +
+" WHERE" +
+    " enrollments.username = ?1" +
+        " AND quizzes.id NOT IN (SELECT" + 
+            " chances.quizz_id" +
+        " FROM" +
+            " chances" +
+        " WHERE" +
+            " chances.username = ?1" +
+                " AND chances.status = 'submitted')",
+            nativeQuery = true
+    )
+    List<newQuizzes> getNewQuizzes(String username);
+
+    public static interface newQuizzes{
+        String getCourseName();
+        Long getClassroomId();
+        String getClassroomName();
+        Long getQuizzId();
+        String getQuizzName();
+        Date getCreationDate();
+        String getUsername();
+        String getChanceStatus();
+        Long getChanceId();
+    }
 }
 
