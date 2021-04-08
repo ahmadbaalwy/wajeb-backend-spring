@@ -51,7 +51,8 @@ public interface QuizzRepository extends JpaRepository<Quizz, Long>, JpaSpecific
     " chances ON quizzes.id = chances.quizz_id" +
         " AND enrollments.username = chances.username" +
 " WHERE" +
-    " enrollments.username = ?1" +
+    " enrollments.status = 'approved'" +
+    " AND enrollments.username = ?1" +
         " AND quizzes.id NOT IN (SELECT" + 
             " chances.quizz_id" +
         " FROM" +
