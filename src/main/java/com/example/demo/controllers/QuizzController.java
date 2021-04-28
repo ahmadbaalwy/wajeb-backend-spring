@@ -116,5 +116,13 @@ public class QuizzController {
         List<newQuizzes> newQuizzesList = quizzRepository.getNewQuizzes(username);
         return ResponseEntity.ok(newQuizzesList);
     }
+
+    @PostMapping("/activateQuizz")
+    public ResponseEntity<?> activateQuizz(@RequestParam Long quizzId) {
+        Quizz selectedQuizz = quizzRepository.findById(quizzId).orElseThrow();
+        selectedQuizz.setActive(true);
+        quizzRepository.save(selectedQuizz);
+        return ResponseEntity.ok(new String("Quizz Activated Successfully"));
+    }
     
 }

@@ -7,6 +7,7 @@ import com.example.demo.models.Quizz;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public interface QuizzRepository extends JpaRepository<Quizz, Long>, JpaSpecific
         nativeQuery = true
     )
     Long getClassroomId(Long id);
-
+  
     @Query(
         value="select quizzes.max_chances from quizzes where quizzes.id = ?1",
         nativeQuery = true
@@ -53,6 +54,7 @@ public interface QuizzRepository extends JpaRepository<Quizz, Long>, JpaSpecific
 " WHERE" +
     " enrollments.status = 'approved'" +
     " AND enrollments.username = ?1" +
+    " AND quizzes.active = true" +
         " AND quizzes.id NOT IN (SELECT" + 
             " chances.quizz_id" +
         " FROM" +
