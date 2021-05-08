@@ -73,6 +73,18 @@ public class QuizzAnswer {
         this.question = question;
     }
 
+    public Set<ChanceAnswer> getChanceAnswers() {
+        return chanceAnswers;
+    }
+
+    public void setChanceAnswers(Set<ChanceAnswer> chanceAnswers) {
+        this.chanceAnswers = chanceAnswers;
+    }
+
+    public void deleteChanceAnswer(ChanceAnswer chanceAnswer){
+        this.chanceAnswers.remove(chanceAnswer);
+    }
+
     public QuizzAnswer(String text, boolean correct, int sequence) {
         this.text = text;
         this.correct = correct;

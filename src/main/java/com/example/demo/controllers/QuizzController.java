@@ -1,10 +1,15 @@
 package com.example.demo.controllers;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.example.demo.models.ChanceAnswer;
 import com.example.demo.models.Classroom;
+import com.example.demo.models.Question;
 import com.example.demo.models.Quizz;
+import com.example.demo.models.QuizzAnswer;
 import com.example.demo.payload.request.newQuizzRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.ClassroomRepository;
@@ -55,7 +60,8 @@ public class QuizzController {
             newQuizz.getQuizzName(),
             newQuizz.isActive(),
             newQuizz.getMaxChances(),
-            newQuizz.getGrade()
+            newQuizz.getGrade(),
+            newQuizz.isAllowReview()
             );
         quizz.setCreationDate(new Date());
         quizz.setClassroom(classroom);
@@ -85,6 +91,7 @@ public class QuizzController {
         quizz.setActive(newQuizz.isActive());
         quizz.setMaxChances(newQuizz.getMaxChances());
         quizz.setGrade(newQuizz.getGrade());
+        quizz.setAllowReview(newQuizz.isAllowReview());
         quizzRepository.save(quizz);
         return ResponseEntity.ok(new MessageResponse("Quizz Edited Successfully!"));
     }
@@ -123,6 +130,36 @@ public class QuizzController {
         selectedQuizz.setActive(true);
         quizzRepository.save(selectedQuizz);
         return ResponseEntity.ok(new String("Quizz Activated Successfully"));
+    }
+
+    @GetMapping("/reviewQuizz")
+    public Quizz reviewQuizz(@RequestParam Long quizzId, @RequestParam Long chanceId) {
+        ArrayList<ChanceAnswer> chanceAnswersToDelete = new ArrayList<ChanceAnswer>();
+        Quizz quizz = quizzRepository.findById(quizzId).orElseThrow();
+        for (Question question : quizz.getQuestions()) {
+            for (QuizzAnswer quizzAnswer : question.getQuizzAnswers()) {
+                for (ChanceAnswer chanceAnswer : quizzAnswer.getChanceAnswers()) {
+                    //System.out.println(chanceAnswer.getChance().getId());
+                    if (chanceAnswer.getChance().getId() != chanceId){
+                        //quizzAnswer.deleteChanceAnswer(chanceAnswer);
+                        chanceAnswersToDelete.add(chanceAnswer);
+                    }
+                }
+                for (ChanceAnswer chanceAnswer : chanceAnswersToDelete) {
+                        quizzAnswer.deleteChanceAnswer(chanceAnswer);
+                }
+            }
+        }
+
+        return quizz;
+    }
+
+    @GetMapping("/getQuizzSummary")
+    public Quizz getQuizzSummary(@RequestParam Long quizzId) {
+        Quizz quizz = quizzRepository.findById(quizzId).orElseThrow();
+        quizz.setQuestions(null);
+        quizz.setChances(null);
+        return quizz;
     }
     
 }

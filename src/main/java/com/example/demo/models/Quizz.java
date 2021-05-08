@@ -36,6 +36,9 @@ public class Quizz {
 
     private Date creationDate;
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean allowReview;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "classroom_id")
     @JsonBackReference
@@ -52,11 +55,12 @@ public class Quizz {
 
     public Quizz(){}
 
-    public Quizz(String quizzName, boolean active, int maxChances, int grade) {
+    public Quizz(String quizzName, boolean active, int maxChances, int grade, boolean allowReview) {
         this.quizzName = quizzName;
         this.active = active;
         this.maxChances = maxChances;
         this.grade = grade;
+        this.allowReview = allowReview;
     }
 
     public Long getId() {
@@ -101,6 +105,14 @@ public class Quizz {
 
     
 
+    public boolean isAllowReview() {
+        return allowReview;
+    }
+
+    public void setAllowReview(boolean allowReview) {
+        this.allowReview = allowReview;
+    }
+
     public Classroom getClassroom() {
         return classroom;
     }
@@ -119,6 +131,14 @@ public class Quizz {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public Set<Chance> getChances() {
+        return chances;
+    }
+
+    public void setChances(Set<Chance> chances) {
+        this.chances = chances;
     }
 
     public void setCreationDate(Date creationDate) {

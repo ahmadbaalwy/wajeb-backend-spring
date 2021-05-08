@@ -7,6 +7,15 @@ public class newQuizzRequest {
     private String quizzName;
     private boolean active;
     private int maxChances;
+    private boolean allowReview;
+    public boolean isAllowReview() {
+        return allowReview;
+    }
+
+    public void setAllowReview(boolean allowReview) {
+        this.allowReview = allowReview;
+    }
+
     private int grade;
     private Date creationDate;
     private Long classroomId;

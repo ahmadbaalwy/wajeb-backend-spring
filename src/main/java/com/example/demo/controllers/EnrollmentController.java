@@ -50,7 +50,11 @@ public class EnrollmentController {
     public ResponseEntity<?> addEnrollment(@RequestBody newEnrollmentRequest newEnrollment) {
         Classroom classroom = classroomRepository.findById(newEnrollment.getClassroom_id()).orElseThrow();
         Enrollment enrollment = new Enrollment();
-        enrollment.setStatus(newEnrollment.getStatus());
+        if (classroom.isPrivate()){
+            enrollment.setStatus("pending");
+        } else if(!classroom.isPrivate()){
+            enrollment.setStatus("approved");
+        }
         enrollment.setRequestDate(new Date());
         enrollment.setUsername(newEnrollment.getUsername());
         enrollment.setClassroom(classroom);
